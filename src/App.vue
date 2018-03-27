@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <index/>
+  <h1> Data Entry with Bar Graph </h1>
+  <index/>
   </div>
 </template>
 

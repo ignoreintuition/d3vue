@@ -6,15 +6,11 @@ export default {
         .data(ds);
 
         g.enter().append("rect")
-        .attr("x", 1)
-        .attr("height", 20)
+        .attr("width", 20)
         .merge(g)
-        .attr("width", function(d) {
-          return d * 5;
-        })
-        .attr("y", function(d, i) {
-          return i * 21 ;
-        })
+        .attr("height", function(d) {return d.val})
+        .attr("x", function(d, i){ return i * 25})
+        .attr("y", function(d) {return 150 - d.val});
 
         g.exit().remove();
       }

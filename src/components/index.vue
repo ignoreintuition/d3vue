@@ -1,8 +1,9 @@
 <template>
-  <div class="chart">
+  <div class="content">
     <div class="segment">
       <div v-for="(t, index) in dataSet">
-        <input v-model="dataSet[index]">
+        <input v-model="t.name">
+        <input v-model="t.val">
       </div>
       <button @click="addDataPoint">
         New Data Point
@@ -19,7 +20,12 @@ export default {
   name: 'BarChart',
   data () {
     return {
-      dataSet: [50, 35, 20, 45],
+      dataSet: [
+        {'val': 50,'name': 'Val 1'},
+        {'val': 35,'name': 'Val 2'},
+        {'val': 20,'name': 'Val 3'},
+        {'val': 45,'name': 'Val 4'}
+      ],
       svg: {}
     }
   },
@@ -32,7 +38,7 @@ export default {
   },
   methods: {
     addDataPoint: function () {
-      this.dataSet.push(0);
+      this.dataSet.push({'val': 0, 'name': ''});
     }
   }
 }
