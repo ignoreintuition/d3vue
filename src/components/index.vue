@@ -1,8 +1,8 @@
 <template>
-  <div class="hello">
+  <div class="chart">
     <div class="segment">
-      <div v-for="(t, index) in myArr">
-        <input v-model="myArr[index]">
+      <div v-for="(t, index) in dataSet">
+        <input v-model="dataSet[index]">
       </div>
       <button @click="addDataPoint">
         New Data Point
@@ -16,41 +16,23 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'BarChart',
   data () {
     return {
-      myArr: [1,2,3],
-      svg: {},
-      g: {}
+      dataSet: [50, 35, 20, 45],
+      svg: {}
     }
   },
   mounted: function() {
     this.svg = this.$d3.select("#chart")
-    this.update()
+    this.$helpers.update(this.svg, this.dataSet);
   },
   beforeUpdate: function(){
-    this.update();
+    this.$helpers.update(this.svg, this.dataSet);
   },
   methods: {
-    update: function(){
-      this.g = this.svg.selectAll("rect")
-      .data(this.myArr);
-
-      this.g.enter().append("rect")
-      .attr("x", 1)
-      .attr("height", 20)
-      .merge(this.g)
-      .attr("width", function(d) {
-        return d * 5;
-      })
-      .attr("y", function(d, i) {
-        return i * 21 ;
-      })
-
-      this.g.exit().remove();
-    },
     addDataPoint: function () {
-      this.myArr.push(0);
+      this.dataSet.push(0);
     }
   }
 }
