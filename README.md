@@ -1,7 +1,8 @@
-# d3vue
+# d3vue: a D3 Plugin for VueJS
 
 > D3 integration with Vue.js
 
+![d3vue](https://user-images.githubusercontent.com/5210420/37944013-04584884-3148-11e8-82fe-bd3ba1c71e02.png)
 ## Build Setup
 
 ``` bash
