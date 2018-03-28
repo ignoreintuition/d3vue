@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import * as d3 from 'd3'
-import BarChart from './v-barChart'
+import charts from './v-charts'
 
 Vue.config.productionTip = false
-Vue.use(BarChart);
+Vue.use(charts);
 
 Object.defineProperty(Vue.prototype, '$d3', {value: d3});
 

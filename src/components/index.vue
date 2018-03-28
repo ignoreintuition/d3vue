@@ -25,16 +25,14 @@ export default {
         {'val': 35,'name': 'Val 2'},
         {'val': 20,'name': 'Val 3'},
         {'val': 45,'name': 'Val 4'}
-      ],
-      svg: {}
+      ]
     }
   },
   mounted: function() {
-    this.svg = this.$d3.select("#chart")
-    this.$helpers.update(this.svg, this.dataSet);
+    this.$helpers.barChart.update(this.$d3, this.dataSet);
   },
   beforeUpdate: function(){
-    this.$helpers.update(this.svg, this.dataSet);
+    this.$helpers.barChart.update(this.$d3, this.dataSet);
   },
   methods: {
     addDataPoint: function () {
