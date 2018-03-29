@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-  <h1> Data Entry with Bar Graph </h1>
+  <h1> Reactive Data with Charting </h1>
+  <p> Binding data to the DOM using VueJS and using lifecyles to update the associated visualizations. </p>
   <index/>
   </div>
 </template>
