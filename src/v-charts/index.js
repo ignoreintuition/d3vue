@@ -2,14 +2,18 @@ export default {
   install: function (Vue) {
     Vue.prototype.$helpers = {
       barChart: {
-        // $helpers.barchart.update
-        // d3 - d3 instance
-        // ds - dataSet
-        // options
-        // { selector: '#chart'
-        //   metric: 'count'
-        //   dim: 'dimension'
-        // }
+      /**
+       * $helpers.barchart.update
+       * bind data to a bar graph.
+       * @param {string} d3 - reference to d3 object.
+       * @param {string} ds - dataset for the graph.
+       * @param {Object} options - options for bar graph.
+       * @param {string} options.selector - selector name to place the graph.
+       * @param {string} options.metric - value you are measuring.
+       * @param {string} options.dim - value you will be categorizing the data by.
+       * @param {string} options.width - width of the chart.
+       * @param {string} options.height - height of the chart.
+       */
         update: function(d3, ds, options) {
           var domainArr = [];
           var rangeArr = [];
@@ -37,13 +41,14 @@ export default {
               .scale(yScale);
 
           var xAxis = d3.axisBottom()
-              .scale(xScale);
+              .scale(xScale)
 
           svg.selectAll("g").remove();
 
           g.enter()
           .append("rect")
           .merge(g)
+          .attr('class', 'bar')
           .attr("width", function(d, i){
             return (options.width / ds.length) - 1
           })

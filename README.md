@@ -2,8 +2,21 @@
 
 > D3 integration with Vue.js
 
-![d3vue](https://user-images.githubusercontent.com/5210420/37944013-04584884-3148-11e8-82fe-bd3ba1c71e02.png)
+![d3vue](https://user-images.githubusercontent.com/5210420/38121793-621f10e8-339f-11e8-9c96-ce0b6f2512b2.png)
 
+d3vue is a plugin for VueJS 2 that allows you to take data from your Vue instance and bind that data to a D3 v4 data visualization.  d3vue uses the v4 merge syntax so when you can call the same function in your lifecycle events (i.e. mounted, beforeUpdate).  The function signature is:
+
+```
+this.$helpers.barChart.update(this.$d3, this.dataSet, this.options);
+```
+- this.$d3 is a reference to the d3 instances
+- this.dataSet is an array of objects from your instances
+- this.options includes
+  - options.selector: selector name to place the graph.
+  - options.metric: value you are measuring.
+  - options.dim: value you will be categorizing the data by.
+  - options.width: width of the chart.
+  - options.height: height of the chart.
 
 ## Build Setup
 

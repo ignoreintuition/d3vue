@@ -27,7 +27,7 @@ export default {
         {'val': 80,'name': 'Apr'},
         {'val': 56,'name': 'May'},
         {'val': 78,'name': 'Jun'},
-        {'val': 100,'name': 'Jul'},
+        {'val': 99,'name': 'Jul'},
         {'val': 95,'name': 'Aug'},
         {'val': 76,'name': 'Sept'},
         {'val': 40,'name': 'Oct'},
@@ -77,4 +77,5 @@ a {
   width: 50%;
   float: left;
 }
+
 </style>
