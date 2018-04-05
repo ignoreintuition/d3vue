@@ -7,7 +7,7 @@
 d3vue is a plugin for VueJS 2 that allows you to take data from your Vue instance and bind that data to a D3 v4 data visualization.  d3vue uses the v4 merge syntax so when you can call the same function in your lifecycle events (i.e. mounted, beforeUpdate).  The function signature is:
 
 ```
-this.$helpers.barChart.update(this.$d3, this.dataSet, this.options);
+this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
 ```
 - this.$d3 is a reference to the d3 instances
 - this.dataSet is an array of objects from your instances

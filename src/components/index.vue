@@ -10,7 +10,8 @@
       </button>
     </div>
     <div class="segment">
-      <svg id="chart" width="600" height="500"></svg>
+      <svg id="chart" width="600" height="300"></svg>
+      <svg id="chart2" width="600" height="300"></svg>
     </div>
   </div>
 </template>
@@ -35,7 +36,6 @@ export default {
         {'val': 42,'name': 'Dec'}
       ],
       options: {
-        selector: '#chart',
         metric: 'val',
         dim: 'name',
         height: 250,
@@ -44,10 +44,18 @@ export default {
     }
   },
   mounted: function() {
-    this.$helpers.barChart.update(this.$d3, this.dataSet, this.options);
+    this.options.selector = '#chart',
+    this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
+
+    this.options.selector = '#chart2',
+    this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
   },
   beforeUpdate: function(){
-    this.$helpers.barChart.update(this.$d3, this.dataSet, this.options);
+    this.options.selector = '#chart',
+    this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
+
+    this.options.selector = '#chart2',
+    this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
   },
   methods: {
     addDataPoint: function () {
