@@ -85,8 +85,12 @@ export default {
               return o[options.metric];
             }));
 
+            var minVal = Math.min.apply(Math,this.ds.map(function(o){
+              return o[options.metric];
+            }));
+
             var yScale = this.d3.scaleLinear()
-              .domain([0,maxVal])
+              .domain([minVal,maxVal])
               .range([options.height, 0]);
 
             var yAxis = this.d3.axisLeft()

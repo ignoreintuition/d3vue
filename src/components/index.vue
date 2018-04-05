@@ -4,6 +4,7 @@
       <div v-for="(t, index) in dataSet">
         <input v-model="t.name">
         <input v-model="t.val">
+        <input v-model="t.val2">
       </div>
       <button @click="addDataPoint">
         New Data Point
@@ -22,21 +23,20 @@ export default {
   data () {
     return {
       dataSet: [
-        {'val': 50,'name': 'Jan'},
-        {'val': 60,'name': 'Feb'},
-        {'val': 65,'name': 'Mar'},
-        {'val': 80,'name': 'Apr'},
-        {'val': 56,'name': 'May'},
-        {'val': 78,'name': 'Jun'},
-        {'val': 99,'name': 'Jul'},
-        {'val': 95,'name': 'Aug'},
-        {'val': 76,'name': 'Sept'},
-        {'val': 40,'name': 'Oct'},
-        {'val': 35,'name': 'Nov'},
-        {'val': 42,'name': 'Dec'}
+        {'val': 50, 'val2': 1900, 'name': 'Jan'},
+        {'val': 60,'val2': 1730, 'name': 'Feb'},
+        {'val': 65,'val2': 1800, 'name': 'Mar'},
+        {'val': 80,'val2': 1805, 'name': 'Apr'},
+        {'val': 56,'val2': 1750, 'name': 'May'},
+        {'val': 78,'val2': 1777, 'name': 'Jun'},
+        {'val': 99,'val2': 2100, 'name': 'Jul'},
+        {'val': 95,'val2': 2089, 'name': 'Aug'},
+        {'val': 76,'val2': 1640, 'name': 'Sept'},
+        {'val': 40,'val2': 1790, 'name': 'Oct'},
+        {'val': 35,'val2': 1500, 'name': 'Nov'},
+        {'val': 42,'val2': 1456, 'name': 'Dec'}
       ],
       options: {
-        metric: 'val',
         dim: 'name',
         height: 250,
         width: 400
@@ -45,21 +45,25 @@ export default {
   },
   mounted: function() {
     this.options.selector = '#chart',
+    this.options.metric = 'val',
     this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
 
+    this.options.metric = 'val2',
     this.options.selector = '#chart2',
     this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
   },
   beforeUpdate: function(){
+    this.options.metric = 'val',
     this.options.selector = '#chart',
     this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
 
+    this.options.metric = 'val2',
     this.options.selector = '#chart2',
     this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
   },
   methods: {
     addDataPoint: function () {
-      this.dataSet.push({'val': 0, 'name': ''});
+      this.dataSet.push({'val': 0, 'name': '', 'val2': 0});
     }
   }
 }
