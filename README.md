@@ -18,6 +18,17 @@ this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
   - options.width: width of the chart.
   - options.height: height of the chart.
 
+Other functions are:
+```
+this.$helpers.chart.pieChart(...)
+this.$helpers.chart.lineGraph(...)
+
+```
+## Todo
+- Add Tooltips
+_ Additional chart types
+- Color scales
+
 ## Build Setup
 
 ``` bash

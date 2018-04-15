@@ -46,7 +46,7 @@ export default {
   mounted: function() {
     this.options.selector = '#chart',
     this.options.metric = 'val',
-    this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
+    this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
 
     this.options.metric = 'val2',
     this.options.selector = '#chart2',
@@ -55,7 +55,7 @@ export default {
   beforeUpdate: function(){
     this.options.metric = 'val',
     this.options.selector = '#chart',
-    this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
+    this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
 
     this.options.metric = 'val2',
     this.options.selector = '#chart2',
