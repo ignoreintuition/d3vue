@@ -13,6 +13,7 @@
     <div class="segment">
       <svg id="chart" width="600" height="300"></svg>
       <svg id="chart2" width="600" height="300"></svg>
+      <svg id="chart3" width="600" height="300"></svg>
     </div>
   </div>
 </template>
@@ -38,32 +39,33 @@ export default {
       ],
       options: {
         dim: 'name',
-        height: 250,
-        width: 400
+        height: 200,
+        width: 300
       }
     }
   },
   mounted: function() {
-    this.options.selector = '#chart',
-    this.options.metric = 'val',
-    this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
-
-    this.options.metric = 'val2',
-    this.options.selector = '#chart2',
-    this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
+    this.renderCharts();
   },
   beforeUpdate: function(){
-    this.options.metric = 'val',
-    this.options.selector = '#chart',
-    this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
-
-    this.options.metric = 'val2',
-    this.options.selector = '#chart2',
-    this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
+    this.renderCharts();
   },
   methods: {
     addDataPoint: function () {
       this.dataSet.push({'val': 0, 'name': '', 'val2': 0});
+    },
+    renderCharts: function (){
+      this.options.selector = '#chart',
+      this.options.metric = 'val',
+      this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
+
+      this.options.selector = '#chart2',
+      this.options.metric = 'val2',
+      this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
+
+      this.options.selector = '#chart3',
+      this.options.metric = 'val',
+      this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
     }
   }
 }
@@ -88,6 +90,7 @@ a {
 .segment {
   width: 50%;
   float: left;
+  align-content:center;
 }
 
 </style>

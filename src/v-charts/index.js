@@ -139,7 +139,7 @@ export default {
         pieChart: function(d3, ds, options) {
           this.init(d3, ds, options.selector);
 
-          var radius = 100;
+          var radius = options.height > options.width ? (options.width - options.width * 0.1) / 2 : (options.height - options.height * 0.1) / 2;
 
           var pie = this.d3.pie()
             .sort(null)
@@ -154,17 +154,16 @@ export default {
           var arc = this.svg.selectAll(".arc")
               .data(pie(ds))
 
+          // Todo scale to handle more colors
           var color = d3.scaleOrdinal()
             .range(["#C0D6CC", "#A3C2BA", "#7D9EA8", "#546A87", "#37386B", "5758AA"])
 
-          this.svg.selectAll("g").remove();
-
           arc.enter()
             .append("g")
-            .attr("class", "arc")
             .attr("transform", "translate(" + options.width / 2 + "," + options.height / 2 + ")")
             .append("path")
             .merge(arc)
+            .attr("class", "arc")
             .attr("d", path)
             .attr("fill", function(d,i) {
               return color(i);
@@ -204,7 +203,7 @@ export default {
           this.svg.append("g")
             .attr("transform", "translate(70," + (height + 5) + ")")
             .call(xAxis);
-        }
+        },
       }
     }
   }
