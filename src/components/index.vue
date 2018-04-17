@@ -3,17 +3,17 @@
     <div class="segment">
       <div v-for="(t, index) in dataSet">
         <input v-model="t.name">
-        <input v-model="t.val">
-        <input v-model="t.val2">
+        <input v-model.number="t.val" type="number" >
+        <input v-model.number="t.val2" type="number" >
       </div>
       <button @click="addDataPoint">
         New Data Point
       </button>
     </div>
     <div class="segment">
-      <svg id="chart" width="600" height="300"></svg>
-      <svg id="chart2" width="600" height="300"></svg>
-      <svg id="chart3" width="600" height="300"></svg>
+      <svg class="chart" id="chart" width="300" height="200"></svg>
+      <svg class="chart" id="chart2" width="300" height="200"></svg>
+      <svg class="chart" id="chart3" width="300" height="200"></svg>\
     </div>
   </div>
 </template>
@@ -39,8 +39,8 @@ export default {
       ],
       options: {
         dim: 'name',
-        height: 200,
-        width: 300
+        height: 175,
+        width: 250
       }
     }
   },
@@ -88,9 +88,13 @@ a {
   color: #42b983;
 }
 .segment {
-  width: 50%;
+  width: 100%;
   float: left;
   align-content:center;
+}
+.chart {
+  padding: 20px;
+  background: #EEFFFF;
 }
 
 </style>

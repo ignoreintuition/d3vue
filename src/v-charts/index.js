@@ -78,9 +78,6 @@ export default {
         lineChart: function(d3, ds, options) {
           this.init(d3, ds, options.selector);
 
-          var g = this.svg.selectAll("line")
-            .data(this.ds);
-
           var maxVal = Math.max.apply(Math, this.ds.map(function(o) {
             return o[options.metric];
           }));
@@ -100,29 +97,23 @@ export default {
           var xAxis = this.d3.axisBottom()
             .scale(xScale)
 
-          this.svg.selectAll("g").remove();
+          var lineFunction = this.d3.line()
+            .x(function(d, i) { return xScale(d[options.dim]) + 60; })
+            .y(function(d) { return yScale(d[options.metric]); })
 
-          g.enter()
-            .append("line")
-            .attr("stroke-width", "3")
-            .attr("stroke", "black")
-            .attr('class', 'line')
-            .merge(g)
-            .attr("x1", (d, i) => {
-              return (i == 0) ? 60 : ((i - 1) * (options.width / this.ds.length)) + 60;
-            })
-            .attr("y1", (d, i) => {
-              return (i == 0) ? yScale(d[options.metric]) : yScale(ds[i - 1][options.metric]);
-            })
-            .attr("x2", (d, i) => {
-              return (i * (options.width / this.ds.length)) + 60;
-            })
-            .attr("y2", d => {
-              return yScale(d[options.metric]);
-            })
+          this.svg.selectAll("g").remove();
+          this.svg.selectAll("path").remove();
+
+          this.svg.append("path")
+            .datum(this.ds)
+            .attr("fill", "none")
+            .attr("stroke", "#ffab00")
+            .attr("stroke-width", 3)
+            .attr("d", lineFunction)
 
           this.drawAxis(options.height, xAxis, yAxis);
-          g.exit().remove();
+
+          this.svg.exit().remove();
         },
         /**
          * $helpers.chart.pieChart
