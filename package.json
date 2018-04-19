@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "D3 integration with Vue.js",
   "author": "Brian Greig <brian@resurgencewebdesign.com>",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
