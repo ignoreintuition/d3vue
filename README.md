@@ -1,4 +1,5 @@
-# d3vue: a D3 Plugin for VueJS
+# D3 + Vue: a D3 Plugin for VueJS
+![logo](https://user-images.githubusercontent.com/5210420/38968715-af63c158-435a-11e8-9d8f-c0960975e3a8.png)
 
 > D3 integration with Vue.js
 
