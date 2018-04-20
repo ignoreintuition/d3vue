@@ -147,7 +147,7 @@ export default {
 
           // Todo scale to handle more colors
           var color = d3.scaleOrdinal()
-            .range(["#C0D6CC", "#A3C2BA", "#7D9EA8", "#546A87", "#37386B", "5758AA"])
+            .range(["#4D4D4D", "#5DA5DA", "#FAA43A", "#60BD68", "#F17CB0", "#B2912F", "#B276B2", "#DECF3F", "#F15854" ])
 
           arc.enter()
             .append("g")
@@ -159,6 +159,19 @@ export default {
             .attr("fill", function(d,i) {
               return color(i);
             })
+            .on("mouseover", d => {
+              this.svg.append("text")
+              .attr("x", 10)
+              .attr("y", 10)
+              .attr("class", "tt")
+              .text(d.data.name + ": " + d.data.val);
+            })
+            .on("mouseout", d => {
+                this.svg.selectAll(".tt").remove();
+            });
+
+
+
             arc.exit().remove();
 
         },

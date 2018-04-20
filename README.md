@@ -3,7 +3,7 @@
 
 > D3 integration with Vue.js
 
-![d3vue](https://user-images.githubusercontent.com/5210420/38121793-621f10e8-339f-11e8-9c96-ce0b6f2512b2.png)
+![d3vue](https://user-images.githubusercontent.com/5210420/39028377-57187118-4424-11e8-9831-f2b06b58145e.png)
 
 d3vue is a plugin for VueJS 2 that allows you to take data from your Vue instance and bind that data to a D3 v4 data visualization.  d3vue uses the v4 merge syntax so when you can call the same function in your lifecycle events (i.e. mounted, beforeUpdate).  The function signature is:
 
@@ -25,10 +25,6 @@ this.$helpers.chart.pieChart(...)
 this.$helpers.chart.lineGraph(...)
 
 ```
-## Todo
-- Add Tooltips
-_ Additional chart types
-- Color scales
 
 ## Build Setup
 
