@@ -24,7 +24,7 @@ export default {
   data () {
     return {
       dataSet: [
-        {'val': 50, 'val2': 1900, 'name': 'Jan'},
+        {'val': 50,'val2': 1900, 'name': 'Jan'},
         {'val': 60,'val2': 1730, 'name': 'Feb'},
         {'val': 65,'val2': 1800, 'name': 'Mar'},
         {'val': 80,'val2': 1805, 'name': 'Apr'},
@@ -57,6 +57,7 @@ export default {
     renderCharts: function (){
       this.options.selector = '#chart',
       this.options.metric = 'val',
+      this.options.title = "Bar Chart Example"
       this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
 
       this.options.selector = '#chart2',

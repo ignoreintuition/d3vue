@@ -4,9 +4,6 @@ export default {
       chart: {
         d3: {},
         ds: {},
-        svg: {},
-        x1: 0,
-        y1: 0,
         /**
          * $helpers.chart.barChart
          * bind data to a bar graph.
@@ -18,11 +15,13 @@ export default {
          * @param {string} options.dim - value you will be categorizing the data by.
          * @param {string} options.width - width of the chart.
          * @param {string} options.height - height of the chart.
+         * @param {string} options.title - title of the chart.
          */
         barChart: function(d3, ds, options) {
-          this.init(d3, ds, options.selector);
-
-          var g = this.svg.selectAll("rect")
+          var svg = this.init(d3, ds, options.selector);
+          var offset = options.title ? 20 : 0;
+          options.height = options.height - offset;
+          var g = svg.selectAll("rect")
             .data(this.ds);
 
           var maxVal = Math.max.apply(Math, this.ds.map(function(o) {
@@ -36,11 +35,12 @@ export default {
           var yAxis = this.d3.axisLeft()
             .scale(yScale);
 
-          var xScale = this.initOrdinalScale(options.dim, options.width);
+          var xScale = this.initOrdinalScale(options.dim, options.width, offset);
           var xAxis = this.d3.axisBottom()
             .scale(xScale)
 
-          this.svg.selectAll("g").remove();
+          svg.selectAll("g").remove();
+          if (options.title) this.addTitle(options.title, svg, options.width);
 
           g.enter()
             .append("rect")
@@ -58,8 +58,15 @@ export default {
             .attr("y", d => {
               return yScale(d[options.metric]);
             })
+            .on("mouseover", d => {
+              this.addTooltip(d, svg, options.width - offset, 10 )
+            })
+            .on("mouseout", d => {
+              this.removeTooltip(svg);
+            })
+            .attr("transform", "translate(0,"+offset+")");
 
-          this.drawAxis(options.height, xAxis, yAxis);
+          this.drawAxis(options.height, svg, offset, xAxis, yAxis);
           g.exit().remove();
         },
 
@@ -74,9 +81,11 @@ export default {
          * @param {string} options.dim - value you will be categorizing the data by.
          * @param {string} options.width - width of the chart.
          * @param {string} options.height - height of the chart.
+         * @param {string} options.title - title of the chart.
          */
         lineChart: function(d3, ds, options) {
-          this.init(d3, ds, options.selector);
+          var svg = this.init(d3, ds, options.selector);
+          var offset = 0;
 
           var maxVal = Math.max.apply(Math, this.ds.map(function(o) {
             return o[options.metric];
@@ -101,19 +110,19 @@ export default {
             .x(function(d, i) { return xScale(d[options.dim]) + 60; })
             .y(function(d) { return yScale(d[options.metric]); })
 
-          this.svg.selectAll("g").remove();
-          this.svg.selectAll("path").remove();
+          svg.selectAll("g").remove();
+          svg.selectAll("path").remove();
 
-          this.svg.append("path")
+          svg.append("path")
             .datum(this.ds)
             .attr("fill", "none")
             .attr("stroke", "#ffab00")
             .attr("stroke-width", 3)
             .attr("d", lineFunction)
 
-          this.drawAxis(options.height, xAxis, yAxis);
+          this.drawAxis(options.height, svg, offset, xAxis, yAxis);
 
-          this.svg.exit().remove();
+          svg.exit().remove();
         },
         /**
          * $helpers.chart.pieChart
@@ -126,10 +135,11 @@ export default {
          * @param {string} options.dim - value you will be categorizing the data by.
          * @param {string} options.width - width of the chart.
          * @param {string} options.height - height of the chart.
+         * @param {string} options.title - title of the chart.
          */
         pieChart: function(d3, ds, options) {
-          this.init(d3, ds, options.selector);
-
+          var svg = this.init(d3, ds, options.selector);
+          var offset = 0;
           var radius = options.height > options.width ? (options.width - options.width * 0.1) / 2 : (options.height - options.height * 0.1) / 2;
 
           var pie = this.d3.pie()
@@ -142,12 +152,13 @@ export default {
             .outerRadius(radius - 10)
             .innerRadius(25);
 
-          var arc = this.svg.selectAll(".arc")
+          var arc = svg.selectAll(".arc")
               .data(pie(ds))
 
-          // Todo scale to handle more colors
           var color = d3.scaleOrdinal()
-            .range(["#4D4D4D", "#5DA5DA", "#FAA43A", "#60BD68", "#F17CB0", "#B2912F", "#B276B2", "#DECF3F", "#F15854" ])
+            .range(["#4D4D4D", "#5DA5DA", "#FAA43A", "#60BD68", "#F17CB0",
+              "#B2912F", "#B276B2", "#DECF3F", "#F15854"
+            ])
 
           arc.enter()
             .append("g")
@@ -160,18 +171,11 @@ export default {
               return color(i);
             })
             .on("mouseover", d => {
-              this.svg.append("text")
-              .attr("x", 10)
-              .attr("y", 10)
-              .attr("class", "tt")
-              .text(d.data.name + ": " + d.data.val);
+              this.addTooltip(d.data, svg, options.width - 20, 10 )
             })
             .on("mouseout", d => {
-                this.svg.selectAll(".tt").remove();
+              this.removeTooltip(svg);
             });
-
-
-
             arc.exit().remove();
 
         },
@@ -179,7 +183,7 @@ export default {
         init: function(d3, ds, selector) {
           this.d3 = d3;
           this.ds = ds;
-          this.svg = this.d3.select(selector)
+          return this.d3.select(selector)
         },
 
         initOrdinalScale: function(dim, width) {
@@ -199,15 +203,36 @@ export default {
           return xScale;
         },
 
-        drawAxis: function(height, xAxis, yAxis) {
-          this.svg.append("g")
-            .attr("transform", "translate(50,0)")
-            .call(yAxis);
+        drawAxis: function(height, svg, offset, xAxis, yAxis) {
+          svg.append("g")
+            .attr("transform", "translate(50,"+offset+")")
+            .call(yAxis)
+            ;
 
-          this.svg.append("g")
-            .attr("transform", "translate(70," + (height + 5) + ")")
+          svg.append("g")
+            .attr("transform", "translate(70," + (height + offset + 5) + ")")
             .call(xAxis);
         },
+
+        addTooltip: function(d, svg, x, y) {
+          svg.append("text")
+          .attr("x", x)
+          .attr("y", y)
+          .attr("class", "tt")
+          .text(d.name + ": " + d.val);
+        },
+
+        removeTooltip: function(svg){
+          svg.selectAll(".tt").remove();
+        },
+
+        addTitle: function(t, svg, w){
+          svg.append("text")
+          .attr("x", w / 2)
+          .attr("text-anchor", "middle")
+          .attr("y", 0)
+          .text(t);
+        }
       }
     }
   }
