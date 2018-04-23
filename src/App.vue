@@ -33,5 +33,12 @@ rect.bar {
   fill: #004e79;
 }
 
+circle.point {
+  fill: #ffab00;
+}
+.tt {
+font-size: 10px;
+}
+
 
 </style>

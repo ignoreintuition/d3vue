@@ -35,7 +35,7 @@ export default {
         {'val': 76,'val2': 1640, 'name': 'Sept'},
         {'val': 40,'val2': 1790, 'name': 'Oct'},
         {'val': 35,'val2': 1500, 'name': 'Nov'},
-        {'val': 42,'val2': 1456, 'name': 'Dec'}
+        {'val': 42,'val2': 1800, 'name': 'Dec'}
       ],
       options: {
         dim: 'name',
@@ -57,15 +57,17 @@ export default {
     renderCharts: function (){
       this.options.selector = '#chart',
       this.options.metric = 'val',
-      this.options.title = "Bar Chart Example"
+      this.options.title = "Example Bar Chart"
       this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
 
       this.options.selector = '#chart2',
       this.options.metric = 'val2',
+      this.options.title = "Example Line Chart"
       this.$helpers.chart.lineChart(this.$d3, this.dataSet, this.options);
 
       this.options.selector = '#chart3',
       this.options.metric = 'val',
+      this.options.title = "Example Pie Chart"
       this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
     }
   }

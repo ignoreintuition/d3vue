@@ -18,6 +18,7 @@ this.$helpers.chart.barChart(this.$d3, this.dataSet, this.options);
   - options.dim: value you will be categorizing the data by.
   - options.width: width of the chart.
   - options.height: height of the chart.
+  - options.title: chart title
 
 Other functions are:
 ```
