@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div class="segment">
+    <div class="data-grid">
       <div v-for="(t, index) in dataSet">
         <input v-model="t.name">
         <input v-model.number="t.val" type="number" >
@@ -11,9 +11,10 @@
       </button>
     </div>
     <div class="segment">
-      <svg class="chart" id="chart" width="300" height="200"></svg>
-      <svg class="chart" id="chart2" width="300" height="200"></svg>
-      <svg class="chart" id="chart3" width="300" height="200"></svg>\
+      <svg class="chart" id="chart" width="400" height="200"></svg>
+      <svg class="chart" id="chart2" width="400" height="200"></svg>
+      <svg class="chart" id="chart3" width="400" height="200"></svg>
+      <svg class="chart" id="chart4" width="400" height="200"></svg>
     </div>
   </div>
 </template>
@@ -69,6 +70,12 @@ export default {
       this.options.metric = 'val',
       this.options.title = "Example Pie Chart"
       this.$helpers.chart.pieChart(this.$d3, this.dataSet, this.options);
+
+      this.options.selector = '#chart4',
+      this.options.metric = 'val2',
+      this.options.metric2 = 'val',
+      this.options.title = "Example Scatter Plot"
+      this.$helpers.chart.scatterPlot(this.$d3, this.dataSet, this.options);
     }
   }
 }

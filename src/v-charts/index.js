@@ -18,7 +18,7 @@ export default {
          * @param {string} options.title - title of the chart.
          */
         barChart: function(d3, ds, options) {
-          var metric = options.metric;  
+          var metric = options.metric;
           var svg = this.init(d3, ds, options.selector);
           var offset = options.title ? 20 : 0;
           var g = svg.selectAll('rect')
@@ -59,13 +59,14 @@ export default {
               return yScale(d[options.metric]);
             })
             .on('mouseover', d => {
-              var metric = options.metric;
-              this.addTooltip(d, svg, options.width, 0, metric )
+              this.addTooltip(d, svg,
+                this.d3.mouse(this.d3.event.currentTarget)[0],
+                this.d3.mouse(this.d3.event.currentTarget)[1], metric)
             })
             .on('mouseout', d => {
               this.removeTooltip(svg);
             })
-            .attr('transform', 'translate(0,'+offset+')');
+            .attr('transform', 'translate(0,' + offset + ')');
 
           this.drawAxis(options.height, svg, xAxis, yAxis, offset);
           g.exit().remove();
@@ -96,9 +97,6 @@ export default {
             return o[options.metric];
           }));
 
-          var g = svg.selectAll('circle')
-            .data(this.ds);
-
           var yScale = this.d3.scaleLinear()
             .domain([minVal, maxVal])
             .range([options.height, 0]);
@@ -111,11 +109,16 @@ export default {
             .scale(xScale)
 
           var lineFunction = this.d3.line()
-            .x(function(d, i) { return xScale(d[options.dim]) + 60; })
-            .y(function(d) { return yScale(d[options.metric]); })
+            .x(function(d, i) {
+              return xScale(d[options.dim]) + 60;
+            })
+            .y(function(d) {
+              return yScale(d[options.metric]);
+            })
 
-          svg.selectAll('g').remove();
           svg.selectAll('path').remove();
+          svg.selectAll('g').remove();
+
 
           if (options.title) this.addTitle(options.title, svg, options.width);
 
@@ -125,27 +128,7 @@ export default {
             .attr('stroke', '#ffab00')
             .attr('stroke-width', 3)
             .attr('d', lineFunction)
-            .attr('transform', 'translate(0,'+offset+')');
-
-          g.enter()
-            .append('circle')
-            .attr('r', '3')
-            .attr('class', 'point')
-            .merge(g)
-            .attr('cx', (d, i) => {
-              return (i * (options.width / this.ds.length)) + 60
-            })
-            .attr('cy', d => {
-              return yScale(d[options.metric]);
-            })
-            .attr('transform', 'translate(0,'+offset+')')
-            .on('mouseover', d => {
-              this.addTooltip(d, svg, options.width, 0, metric )
-            })
-            .on('mouseout', d => {
-              this.removeTooltip(svg);
-            });
-
+            .attr('transform', 'translate(0,' + offset + ')');
 
           this.drawAxis(options.height, svg, xAxis, yAxis, offset);
 
@@ -181,7 +164,7 @@ export default {
             .innerRadius(25);
 
           var arc = svg.selectAll('.arc')
-              .data(pie(ds))
+            .data(pie(ds))
 
           var color = d3.scaleOrdinal()
             .range(['#4D4D4D', '#5DA5DA', '#FAA43A', '#60BD68', '#F17CB0',
@@ -196,20 +179,92 @@ export default {
             .merge(arc)
             .attr('class', 'arc')
             .attr('d', path)
-            .attr('fill', function(d,i) {
+            .attr('fill', function(d, i) {
               return color(i);
             })
             .on('mouseover', d => {
-              this.addTooltip(d.data, svg, options.width - 20, 0, metric )
+              this.addTooltip(d.data, svg, options.width, 0, metric)
             })
             .on('mouseout', d => {
               this.removeTooltip(svg);
             })
-            .attr('transform', 'translate(0,'+offset+')');
+            .attr('transform', 'translate(0,' + offset + ')');
 
-            arc.exit().remove();
+          arc.exit().remove();
 
         },
+        /**
+         * $helpers.chart.scatterPlot
+         * bind data to a scatter plot.
+         * @param {string} d3 - reference to d3 object.
+         * @param {string} ds - dataset for the graph.
+         * @param {Object} options - options for bar graph.
+         * @param {string} options.selector - selector name to place the graph.
+         * @param {string} options.metric - value you are measuring.
+         * @param {string} options.dim - value you will be categorizing the data by.
+         * @param {string} options.width - width of the chart.
+         * @param {string} options.height - height of the chart.
+         * @param {string} options.title - title of the chart.
+         */
+        scatterPlot: function(d3, ds, options) {
+          var metric = options.metric;
+          var svg = this.init(d3, ds, options.selector);
+          var offset = options.title ? 20 : 0;
+          var maxVal = Math.max.apply(Math, this.ds.map(function(o) {
+            return o[options.metric];
+          }));
+
+          var minVal = Math.min.apply(Math, this.ds.map(function(o) {
+            return o[options.metric];
+          }));
+
+          var maxVal2 = Math.max.apply(Math, this.ds.map(function(o) {
+            return o[options.metric2];
+          }));
+
+          var minVal2 = Math.min.apply(Math, this.ds.map(function(o) {
+            return o[options.metric2];
+          }));
+
+          var g = svg.selectAll('circle')
+            .data(this.ds);
+
+          var yScale = this.d3.scaleLinear()
+            .domain([minVal, maxVal])
+            .range([options.height, 0]);
+
+          var yAxis = this.d3.axisLeft()
+            .scale(yScale);
+
+          var xScale = this.d3.scaleLinear()
+            .domain([minVal2, maxVal2])
+            .range([0, options.width]);
+
+          var xAxis = this.d3.axisBottom()
+            .scale(xScale)
+
+          svg.selectAll('g').remove();
+
+          if (options.title) this.addTitle(options.title, svg, options.width);
+
+          g.enter()
+            .append('circle')
+            .attr('r', '4')
+            .attr('class', 'point')
+            .merge(g)
+            .attr('cx', (d, i) => {
+              return (xScale(d[options.metric2])) + 60
+            })
+            .attr('cy', d => {
+              return yScale(d[options.metric]);
+            })
+            .attr('transform', 'translate(0,' + offset + ')')
+
+            this.drawAxis(options.height, svg, xAxis, yAxis, offset);
+
+            svg.exit().remove();
+        },
+
         /* Helper Function */
         init: function(d3, ds, selector) {
           this.d3 = d3;
@@ -237,7 +292,7 @@ export default {
         drawAxis: function(height, svg, xAxis, yAxis, offset) {
           offset = offset || 0;
           svg.append('g')
-            .attr('transform', 'translate(50,'+offset+')')
+            .attr('transform', 'translate(50,' + offset + ')')
             .call(yAxis);
 
           svg.append('g')
@@ -247,22 +302,22 @@ export default {
 
         addTooltip: function(d, svg, x, y, v) {
           svg.append('text')
-          .attr('x', x)
-          .attr('y', y)
-          .attr('class', 'tt')
-          .text(d.name + ': ' + d[v]);
+            .attr('x', x)
+            .attr('y', y)
+            .attr('class', 'tt')
+            .text(d.name + ': ' + d[v]);
         },
 
-        removeTooltip: function(svg){
+        removeTooltip: function(svg) {
           svg.selectAll('.tt').remove();
         },
 
-        addTitle: function(t, svg, w){
+        addTitle: function(t, svg, w) {
           svg.append('text')
-          .attr('x', w / 2)
-          .attr('text-anchor', 'middle')
-          .attr('y', 0)
-          .text(t);
+            .attr('x', w / 2)
+            .attr('text-anchor', 'middle')
+            .attr('y', 0)
+            .text(t);
         }
       }
     }
