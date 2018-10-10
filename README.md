@@ -1,3 +1,5 @@
+**If you are currently using d3vue we are halting updates on this project.  We have created a new plugin that more deeply integrates with Vue using a standalone component.  Check out our Github page for [v-chart-plugin](https://github.com/ignoreintuition/v-chart-plugin)**
+
 # D3 + Vue: a D3 Plugin for VueJS
 ![logo](https://user-images.githubusercontent.com/5210420/38968715-af63c158-435a-11e8-9d8f-c0960975e3a8.png)
 
