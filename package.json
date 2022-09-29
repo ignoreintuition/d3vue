@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "atob": "^2.1.2",
-    "d3": "^5.0.0",
+    "d3": "^7.6.1",
     "macaddress": "^0.2.9",
     "node-macaddress": "^0.2.4",
     "randomatic": "^3.1.0",
